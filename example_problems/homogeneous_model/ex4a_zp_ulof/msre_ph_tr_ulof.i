@@ -48,7 +48,7 @@ D_H_plena             = '${fparse 2*core_radius}' # Hydraulic diameter of riser
 T_inlet_hx            = 908.15              # Salt inlet temperature (K)
 bulk_htc              = 20000.0             # (W/(m3.K)) core bulk volumetric heat exchange coefficient (already callibrated)
 p_outlet              = 1.50653E+05         # 1.01325e+05 # Reactor outlet pressure (Pa)
-pump_force            = 5.5E+06            # pump force functor (set to get a loop circulation time of ~25 seconds)
+pump_force            = 5.5E+06             # pump force functor (set to get a loop circulation time of ~25 seconds)
 vol_hx                = 1.0E+10             # (W/(m3.K)) volumetric heat exchange coefficient for heat exchanger
                                             # Note: vol_hx need to be tuned to match intermediate HX performance for transients
 # ----------------------------------------------------------------------------------------------------------------
@@ -586,7 +586,7 @@ non_solid_blocks      = 'lower_plenum upper_plenum down_comer riser pump elbow'
 # ================================================================================================================
 # MATERIALS
 # ================================================================================================================
-[Materials]
+[FunctorMaterials]
   # ----------------------------------------------------------------------------------------------------------------
   # Setting up material porosities at fluid blocks
   # ----------------------------------------------------------------------------------------------------------------
@@ -753,7 +753,7 @@ non_solid_blocks      = 'lower_plenum upper_plenum down_comer riser pump elbow'
   []
   [pressure_core_delta]
     type                   = ParsedPostprocessor
-    function               = 'pressure_inlet - pressure_outlet'
+    expression             = 'pressure_inlet - pressure_outlet'
     pp_names               = 'pressure_inlet pressure_outlet'
     execute_on             = 'initial timestep_end'
   []
@@ -789,7 +789,7 @@ non_solid_blocks      = 'lower_plenum upper_plenum down_comer riser pump elbow'
   []
   [T_core_delta]
     type                   = ParsedPostprocessor
-    function               = 'T_core_outlet - T_core_inlet'
+    expression             = 'T_core_outlet - T_core_inlet'
     pp_names               = 'T_core_outlet T_core_inlet'
     execute_on             = 'initial timestep_end'
   []
@@ -897,7 +897,7 @@ non_solid_blocks      = 'lower_plenum upper_plenum down_comer riser pump elbow'
   []
   [power_total_2]
     type                   = ParsedPostprocessor
-    function               = 'power_ghrap_total + power_fuel_total'
+    expression             = 'power_ghrap_total + power_fuel_total'
     pp_names               = 'power_ghrap_total power_fuel_total'
     execute_on             = 'initial timestep_end'
   []
