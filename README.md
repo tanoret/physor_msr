@@ -9,4 +9,5 @@ Load the environment variable for the binaries:
 3. Loaf griffin-opt and pronghorn-opt: `source /projects/physor_molten_salt_training_2024/env.sh`
 
 # Example run command
-`griffin-opt –i mesh_msre.i --mesh-only`
+Generating only the mesh: `griffin-opt –i mesh_msre.i --mesh-only`
+Running the input file: `griffin-opt –i mesh_msre.i`
