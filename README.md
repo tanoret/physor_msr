@@ -10,5 +10,5 @@ Load the environment variable for the binaries:
 
 # Example run command
 - Generating only the mesh: `griffin-opt –i mesh_msre.i --mesh-only`
-- Running the input file in serial: `griffin-opt –i lattice.i`
-- Running the input file in parallel: `mpirun -n 6 griffin-opt –i lattice.i`
+- Running the input file in serial: `griffin-opt –i griffin_lat.in`
+- Running the input file in parallel: `mpirun -n 6 griffin-opt –i griffin_lat.in`
