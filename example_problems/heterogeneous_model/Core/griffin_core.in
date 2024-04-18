@@ -1,0 +1,103 @@
+[GlobalParams]
+  library_file = 'isoxml'
+  library_name = ISOTXS-neutron
+  is_meter     = true
+  plus         = true
+  dbgmat       = false
+  grid_names   = 'Tfuel'
+  grid         = '1'
+[]
+
+[Mesh]
+  [fmg]
+    type = FileMeshGenerator
+    file = 'mesh.e'
+  []
+[]
+
+[TransportSystems]
+  particle = neutron
+  equation_type = eigenvalue
+  G = 20
+  VacuumBoundary = '10000 2000 2001'
+  [tr]
+    scheme = CFEM-Diffusion
+    family                       = LAGRANGE
+    order                        = FIRST
+  []
+
+[]
+
+[PowerDensity]
+  power = 1.0
+  power_density_variable = power_density
+[]
+
+[Executioner]
+  type                  = Eigenvalue
+  eigen_tol             = 1.0e-6
+  free_power_iterations =   4
+  verbose               = true
+  fixed_point_abs_tol   = 0.1
+  fixed_point_max_its   = 1
+  l_max_its             = 100
+  l_abs_tol             = 1.0e-9
+  # l_tol                 = 1.0e-2
+  nl_rel_tol            = 1.0e-6
+  nl_abs_tol            = 1.0e-9
+  solve_type            = PJFNK
+  petsc_options_iname   = '-pc_type -pc_hypre_type -ksp_gmres_restart'
+  petsc_options_value   = 'hypre boomeramg 100'
+[]
+
+[Materials]
+   [core_fuel_salt]
+     type        = MixedNeutronicsMaterial
+     block       = '1979 1980 1981 1982 2 3 4 5 6 201 211'
+     # block       = '1 2 3 4 5 6 201 211'
+     isotopes    = 'pseudo_Be09_A
+                    pseudo_F_19_A
+                    pseudo_Li06_A
+                    pseudo_Li07_A
+                    pseudo_U_35_A
+                    pseudo_U_38_A
+                    pseudo_Zr90_A
+                    pseudo_Zr91_A
+                    pseudo_Zr92_A
+                    pseudo_Zr94_A
+                    pseudo_Zr96_A'
+     densities   = '9.84823E-03
+                    4.94437E-02
+                    2.55699E-06
+                    2.19199E-02
+                    8.38376E-05
+                    1.85984E-04
+                    8.67636E-04
+                    1.89210E-04
+                    2.89212E-04
+                    2.93091E-04
+                    4.72182E-05'
+     material_id = 1
+  []  
+  [core_graphite]
+    type        = MixedNeutronicsMaterial
+    block       = '200'
+    isotopes    = 'pseudo_C_00_B'
+    densities   = 9.32598E-02
+    material_id = 1
+  []
+[]
+
+
+[Postprocessors] 
+ [integral_power]
+    type = ElementIntegralVariablePostprocessor
+    variable = power_density
+    execute_on = 'INITIAL TIMESTEP_END'
+ []
+[]
+
+[Outputs]
+  csv        = true
+  exodus     = true
+[]
